@@ -111,9 +111,9 @@ Finally, in the cell-footer.php, add a call to darkmode-cell-footer just after t
 `</div>`  
 `<?php } // endif display only if -dark.css is found ?>`
 
-## Optional, advanced features
+## handheld-dark-example.css with optional, advanced features
 
-Creating the handheld-dark.css file for your setup, and adding the three blocks of code above, is sufficient to get dark mode responsiveness on your system. Also attached is a sample handheld-dark.css file I am using on my own site, and some notes on additional changes I made to make the system work better for me. Here’s an excerpt of the handheld-dark.css file:
+Creating the handheld-dark.css file for your setup, and adding the three blocks of code above, is sufficient to get dark mode responsiveness on your system. Also attached is an exerpt of handheld-dark-example.css file I am using on my own site, and some notes on additional changes I made to make the system work better for me. Here’s an excerpt of the handheld-dark.css file:
 
 `/* Dark mode -- handle dark mode completely in this file */`  
 `/* add a call to this stylesheet AFTER the regular (light) one */`
@@ -174,6 +174,18 @@ Creating the handheld-dark.css file for your setup, and adding the three blocks 
     `width: 74px;`  
   `}`  
   `/* end of hack */`
+
+The :root keyword means that the CSS that follows is applicable to the entire document. The color-scheme is set to dark, and a set of colors is defined with names, similar to properties or variables in programming languages, so that they can be applied consistently throughout the file by using the var() function. The idea is to create a standard set of named color properties (like caption, subhead, hot, cold, etc.) and be able to modify them in one central place and take effect thoughout the file. Note that this is a work-in-progress, and some colors are still hard-coded.
+
+The thermometer was a problem: the text was in black on a dark background. While the thermometer.php does accept a parameter to display in dark mode, the PHP may not be aware the system has changed to dark mode, so a different solution is needed. I added an ID tag to the table cell element that contains the thermometer, and then use that tag to define a background color that makes the thermometer's scale visible. I changed the code in cell-ajax-dashboard.php to look like this:
+
+`         <td align="center" id="thermometercontainer" style="padding:2px; text-align: center;border: none; padding-left:0px;">
+            <span class="ajax" id="ajaxthermometer">`
+
+Similarly, the wind indicator had black compass points (N,E,S,W) that appear poorly on the new dark background. Again, I added an ID tag to the containing table cell, and used the CSS to style a spiffy circular, gradient background:
+
+`        <td valign="middle" id="windicbox" align="center" style="padding: 4px;">
+                        <span class="ajax" id="ajaxwindiconwr">`
 
 Key points to consider in converting pages to being dark-mode compliant:`
 
