@@ -13,44 +13,6 @@ At the top of the cell-top.php script, just before the line that calls Settings.
 
 This script sets the CSSDarkMode of the $SITE array to System, Light or Dark, if this script is running after the user makes that selection (in darkmode-cell-footer.php, below). It preserves that setting in a cookie. If there was no form option clicked, it checks for a previous cookie setting and uses that. If there is no cookie, either, like a first-time user, it defaults to the System setting.
 
-`<?php`  
-  `// Check to see if darkmode has been selected on a form that calls this page`  
-  `if (!empty($_GET['darkmodeswitch']) && in_array($_GET['darkmodeswitch'], array('Disabled','Light','Dark','System'))) {`  
-    `$CSSDarkMode = $_GET['darkmodeswitch'] ;`  
-    `$SITE['CSSDarkMode'] =  $CSSDarkMode ;`
-
-    `// Preserve this setting in a cookie, checked below if there wasn't an overriding form choice`  
-    `$name = "CSSDarkMode";`  
-    `$value = $CSSDarkMode;`  
-    `$expire = time()+60*60*24*30;`  
-    `$path = '/';`  
-    `$domain = $_SERVER["HTTP_HOST"] ; // 'contoocook.org' or 'm.contoocook.org';`  
-    `$secure = !empty($_SERVER['HTTPS']) ;`  
-    `$options = array(`  
-      `"expires_or_options" => $expire,`  
-      `"path" => $path,`  
-      `"domain" => $domain,`  
-      `"secure" =>  $secure,`  
-      `"httponly" => false,`  
-      `"samesite" => 'Lax'`  
-    `);`    
-    `if(PHP_VERSION_ID < 70300) {`  
-       `$result = setcookie("$name",$value,$expire,$path.'; SameSite=Lax');`  
-    `} else {`  
-      `$result = setcookie($name, $value, $options);`  
-    `}`     
-    `if ($result == FALSE) error_log("Cookie set failed.");`  
-          
-    `} else { // if we're not getting passed a choice from the form, check if there is already a cookie`  
-    `// use the cookie setting, if set, or default to the System dark mode`
-
-    `if (!empty($_COOKIE['CSSDarkMode'])) { // use User-selected mode Dark or Light`  
-       `$SITE['CSSDarkMode'] = $_COOKIE['CSSDarkMode'];`  
-      `} else { // or default to system`  
-      `$SITE['CSSDarkMode'] = 'System' ;`  
-      `}`     
-  `}`
-
 ## Darkmode-cell-top-setstyle.php
 
 In the cell-top screen, REPLACE the line:   
@@ -64,20 +26,7 @@ This code sets the CSSscreenDark variable to the stylesheet name with \-dark app
 If CSSDarkMode is set to “Light,” omit the dark stylesheet  
 If CSSDarkMode is set to “Dark,” add the stylesheet, which overrides the colors in the primary stylesheet.  
 If CSSDarkMode is set to “System,” add the stylesheet with the media query that says it should be used only if the system is set to dark mode.  
-If the CSSDarkMode is set to “Disabled,” because the \-dark stylesheet can’t be found, no HTML is added to the form.
-
-`<?php`                                                                                                                                                                                                                
-  `$CSSscreenDark = str_replace('.css', '-dark.css', $SITE['CSSscreen']);`                                                                                                                                             
-  `$SITE['CSSscreenDark'] = (file_exists($CSSscreenDark)) ? $CSSscreenDark : '' ;`                                                                                                                                     
-  `if (empty($SITE['CSSscreenDark'])) { $SITE['CSSDarkMode'] = 'Disabled' ; }`                                                                                                                                         
-                                                                                                                                                                                                                     
-  `if (!empty($SITE['CSSDarkMode']) && $SITE['CSSDarkMode'] != 'Disabled' ) {`                                                                                                                                         
-    `if ($SITE['CSSDarkMode'] == "Dark") { // force dark mode ?>`                                                                                                                                                      
-`<link rel="stylesheet" type="text/css" href="<?php echo $SITE['CSSscreenDark']; ?>" />`                                                                                                                               
-    `<?php } elseif ($SITE['CSSDarkMode'] == "System") { // load the CSS, but use only if the system is in dark mode ?>`                                                                                               
-`<link rel="stylesheet" type="text/css" href="<?php echo $SITE['CSSscreenDark']; ?>" media="screen and (prefers-color-scheme:dark)"/>`                                                                                 
-    `<?php }`                                                                                                                                                                                                          
-`} // end which stylesheet to invoke`   
+If the CSSDarkMode is set to “Disabled,” because the \-dark stylesheet can’t be found, no HTML is added to the form. 
 
 ## Darkmode-cell-footer.php
 
@@ -87,29 +36,6 @@ Finally, in the cell-footer.php, add a call to darkmode-cell-footer just after t
    **`<?php require_once("darkmode-cell-footer.inc"); ?>`**
 
  This presents a small form to the user to pick Light, Dark or System settings. The form shows three radio buttons with the current mode selected and disabled (there’s no point in re-clicking the same button). Each button auto-submits on click, so that will set the $\_GET variable caught in the darkmode-cell-top.php script above.
-
-`<?php if (!empty($SITE['CSSDarkMode']) && $SITE['CSSDarkMode'] != "Disabled") { // Use only if a -dark.css is found ?>`  
-`<div>`  
-`<form id="darkmodeform" name="darkmodeform" method="get" action="" >`  
-  `<fieldset>`  
-    `<legend>Screen mode:</legend>`  
-    `<!-- <p> <span class="flagwhite">&#9873;</span><span class="flaggreen">&#9873;</span><span class="flagyellow">&#9873;</span><span class="flagred">&#9873;</span><span class="flagblack">&#9873;</span> </p> -->`  
-    `<?php $checked = ($SITE['CSSDarkMode'] == 'Light') ? ' checked disabled ' : '' ; ?>`  
-    `<label for="light">`  
-      `<input type="radio" id="light" name="darkmodeswitch" value="Light" <?php echo "$checked "; ?> onchange="this.form.submit()"/>Light`  
-    `</label>`  
-    `<?php $checked = ($SITE['CSSDarkMode'] == 'Dark') ? ' checked disabled ' : '' ; ?>`  
-    `<label for="dark">`  
-      `<input type="radio" id="dark" name="darkmodeswitch" value="Dark" <?php echo "$checked "; ?> onchange="this.form.submit()" />Dark`  
-    `</label>`  
-    `<?php $checked = ($SITE['CSSDarkMode'] == 'System') ? ' checked disabled ' : '' ; ?>`  
-    `<label for="system">`  
-      `<input type="radio" id="system" name="darkmodeswitch" value="System" <?php echo "$checked "; ?> onchange="this.form.submit()" />System`  
-    `</label>`  
-  `</fieldset>`  
-`</form>`  
-`</div>`  
-`<?php } // endif display only if -dark.css is found ?>`
 
 ## handheld-dark-example.css with optional, advanced features
 
@@ -183,6 +109,8 @@ Creating the handheld-dark.css file for your setup, and adding the three blocks 
 
 The :root keyword means that the CSS that follows is applicable to the entire document. The color-scheme is set to dark, and a set of colors is defined with names, similar to properties or variables in programming languages, so that they can be applied consistently throughout the file by using the var() function. The idea is to create a standard set of named color properties (like caption, subhead, hot, cold, etc.) and be able to modify them in one central place and take effect thoughout the file. Note that this is a work-in-progress, and some colors are still hard-coded.
 
+Here's the technique I used to fix the obvious problems I could see switching into dark mode:
+
 The thermometer was a problem: the text was in black on a dark background. While the thermometer.php does accept a parameter to display in dark mode, the PHP may not be aware the system has changed to dark mode, so a different solution is needed. I added an ID tag to the table cell element that contains the thermometer, and then use that tag to define a background color that makes the thermometer's scale visible. I changed the code in cell-ajax-dashboard.php to look like this:
 
 `         <td align="center" id="thermometercontainer" style="padding:2px; text-align: center;border: none; padding-left:0px;">`
@@ -193,7 +121,7 @@ Similarly, the wind indicator had black compass points (N,E,S,W) that appear poo
 `        <td valign="middle" id="windicbox" align="center" style="padding: 4px;">`
 `                        <span class="ajax" id="ajaxwindiconwr">`
 
-The AQI section has a number atop the graphic that was hard-coded with a lot of inline CSS. I added an ID tag "AQIBox" and copied the CSS to BOTH the handheld.css and the handheld-dark.css, changing the colors. Here's the code in cell-ajax-dashboard.php:
+The AQI section has a black number atop the graphic that was hard-coded with a lot of inline CSS. The solution was a little trickier because the colors were encoded directly in the border directives. I added an ID tag "AQIBox" and copied the CSS to BOTH the handheld.css and the handheld-dark.css, changing the colors. Here's the code in cell-ajax-dashboard.php:
 was: `<td rowspan="2" align="center" valign="middle" style="padding-left: 2px; border-left: 1px solid silver; border-bottom: 1px solid silver;"><?php echo $dashbrdAQI; ?> <br />`
 now: `<td rowspan="2" id="AQIbox" align="center" valign="middle" ><?php echo $dashbrdAQI; ?> <br />`
 
@@ -217,6 +145,9 @@ Key points to consider in converting pages to being dark-mode compliant:
 2. If you need to modify an existing page, the ideal solution is to “tag” the element that needs color-changing with an id=”uniquename” or class=”specificClassOfElements” and make those changes in the handheld.css and handheld-dark.css pages. This minimizes the place you have to look for color settings
      
    In some cases, like the Steel Series gauges that come with their own css page, you might want to modify the code shown here to support a separate -dark.css like the code in darkmode-cell-top-setstyle.php, as there is a lot of CSS code and it is unlikely to be reused outside of this single page. Having a separate -dark.css also has the advanage that you can drop in updates to the supplied CSS without overwriting your -dark.css file.  
-3. Many, many elements have their colors hard-coded into their web pages, either with their own CSS files, inline <style>...</style> declarations, or with inline style="" declarations.
+3. Many, many elements have their colors hard-coded into their web pages, either with their own CSS files, inline <style>...</style> declarations, or with inline style="" declarations. This will likely be an evolving, long-term portion of the project.
 4. The handheld.css is the primary file, containing the colors of light mode, as well as the structure, font and any other CSS characteristics. The -dark file is a supplmental file that overrides only the color settings of the primary file. This elminiates unnecessary duplication making maintenance easier.
+5. Please don't feel any obligation to stick with my choice of colors. I picked them while developing so they were clearly changed, perhaps even garish. Season to your own tastes.
+6. 
 
+7. 
