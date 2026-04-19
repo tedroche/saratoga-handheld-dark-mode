@@ -101,11 +101,11 @@ Creating the handheld-dark.css file for your setup, and adding the three blocks 
   `}`  
   `/* end of hack */`
   
-` td#AQIbox {`
-    `border-left-color: var(--border-color) ;`
-    `border-bottom-color: var(--border-color) ;`
-    `color: var(--main-fg-color) ;`
-  `}`
+`td#AQIbox {`
+`border-left-color: var(--border-color) ;`
+`border-bottom-color: var(--border-color) ;`
+`color: var(--main-fg-color) ;`
+`}`
 
 The :root keyword means that the CSS that follows is applicable to the entire document. The color-scheme is set to dark, and a set of colors is defined with names, similar to properties or variables in programming languages, so that they can be applied consistently throughout the file by using the var() function. The idea is to create a standard set of named color properties (like caption, subhead, hot, cold, etc.) and be able to modify them in one central place and take effect thoughout the file. Note that this is a work-in-progress, and some colors are still hard-coded.
 
@@ -113,13 +113,13 @@ Here's the technique I used to fix the obvious problems I could see switching in
 
 The thermometer was a problem: the text was in black on a dark background. While the thermometer.php does accept a parameter to display in dark mode, the PHP may not be aware the system has changed to dark mode, so a different solution is needed. I added an ID tag to the table cell element that contains the thermometer, and then use that tag to define a background color that makes the thermometer's scale visible. I changed the code in cell-ajax-dashboard.php to look like this:
 
-`         <td align="center" id="thermometercontainer" style="padding:2px; text-align: center;border: none; padding-left:0px;">`
-`            <span class="ajax" id="ajaxthermometer">`
+`<td align="center" id="thermometercontainer" style="padding:2px; text-align: center;border: none; padding-left:0px;">`
+`<span class="ajax" id="ajaxthermometer">`
 
 Similarly, the wind indicator had black compass points (N,E,S,W) that appear poorly on the new dark background. Again, I added an ID tag to the containing table cell, and used the CSS to style a spiffy circular, gradient background:
 
-`        <td valign="middle" id="windicbox" align="center" style="padding: 4px;">`
-`                        <span class="ajax" id="ajaxwindiconwr">`
+`<td valign="middle" id="windicbox" align="center" style="padding: 4px;">`
+`<span class="ajax" id="ajaxwindiconwr">`
 
 The AQI section has a black number atop the graphic that was hard-coded with a lot of inline CSS. The solution was a little trickier because the colors were encoded directly in the border directives. I added an ID tag "AQIBox" and copied the CSS to BOTH the handheld.css and the handheld-dark.css, changing the colors. Here's the code in cell-ajax-dashboard.php:
 was: `<td rowspan="2" align="center" valign="middle" style="padding-left: 2px; border-left: 1px solid silver; border-bottom: 1px solid silver;"><?php echo $dashbrdAQI; ?> <br />`
@@ -127,21 +127,21 @@ now: `<td rowspan="2" id="AQIbox" align="center" valign="middle" ><?php echo $da
 
 Handheld.css:
 `td#AQIbox {`
-  `padding-left: 2px;`
-  `border-left: 1px solid silver;`
-  `border-bottom: 1px solid silver;`
+`padding-left: 2px;`
+`border-left: 1px solid silver;`
+`border-bottom: 1px solid silver;`
 `}`
 
 Handheld-dark.css:
-` td#AQIbox {`
-    `border-left-color: var(--border-color) ;`
-    `border-bottom-color: var(--border-color) ;`
-    `color: var(--main-fg-color) ;`
-  `}`
+`td#AQIbox {`
+`border-left-color: var(--border-color) ;`
+`border-bottom-color: var(--border-color) ;`
+`color: var(--main-fg-color) ;`
+`}`
 
 Key points to consider in converting pages to being dark-mode compliant:
 
-1. You want all changes to colors in the CSS files, and out of the running code. This lets you support new modes and color templates without changing code. Especially for this light/dark process, the PHP code that runs the site is not aware of whether the system is set to light or dark, and the CSS automatically switches, without running any of the PHP code that runs the site.  
+1. You want all changes to colors in the CSS files, and out of the running code. This lets you support new modes and color templates without changing code. Especially for this light/dark process, the PHP code that runs the site is not aware of whether the system is set to light or dark, and inSystem mode, the CSS automatically switches, without running any of the PHP code that runs the site.  
 2. If you need to modify an existing page, the ideal solution is to “tag” the element that needs color-changing with an id=”uniquename” or class=”specificClassOfElements” and make those changes in the handheld.css and handheld-dark.css pages. This minimizes the place you have to look for color settings
      
    In some cases, like the Steel Series gauges that come with their own css page, you might want to modify the code shown here to support a separate -dark.css like the code in darkmode-cell-top-setstyle.php, as there is a lot of CSS code and it is unlikely to be reused outside of this single page. Having a separate -dark.css also has the advanage that you can drop in updates to the supplied CSS without overwriting your -dark.css file.  
