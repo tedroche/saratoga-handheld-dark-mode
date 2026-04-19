@@ -148,6 +148,4 @@ Key points to consider in converting pages to being dark-mode compliant:
 3. Many, many elements have their colors hard-coded into their web pages, either with their own CSS files, inline <style>...</style> declarations, or with inline style="" declarations. This will likely be an evolving, long-term portion of the project.
 4. The handheld.css is the primary file, containing the colors of light mode, as well as the structure, font and any other CSS characteristics. The -dark file is a supplmental file that overrides only the color settings of the primary file. This elminiates unnecessary duplication making maintenance easier.
 5. Please don't feel any obligation to stick with my choice of colors. I picked them while developing so they were clearly changed, perhaps even garish. Season to your own tastes.
-6. 
 
-7. 
