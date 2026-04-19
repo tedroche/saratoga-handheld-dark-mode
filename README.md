@@ -181,4 +181,6 @@ Key points to consider in converting pages to being dark-mode compliant:`
 2. If you need to modify an existing page, the ideal solution is to “tag” the element that needs color-changing with an id=”uniquename” or class=”specificClassOfElements” and make those changes in the handheld.css and handheld-dark.css pages. This minimizes the place you have to look for color settings
      
    In some cases, like the Steel Series gauges that come with their own css page, you might want to modify the code shown here to support a separate -dark.css like the code in darkmode-cell-top-setstyle.php, as there is a lot of CSS code and it is unlikely to be reused outside of this single page. Having a separate -dark.css also has the advanage that you can drop in updates to the supplied CSS without overwriting your -dark.css file.  
-3. Many, many elements have their colors hard-coded into their web pages, either with their own CSS files, inline <style>...</style> declarations, or with inline style="" declarations. 
+3. Many, many elements have their colors hard-coded into their web pages, either with their own CSS files, inline <style>...</style> declarations, or with inline style="" declarations.
+4. The handheld.css is the primary file, containing the colors of light mode, as well as the structure, font and any other CSS characteristics. The -dark file is a supplmental file that overrides only the color settings of the primary file. This elminiates unnecessary duplication making maintenance easier.
+
