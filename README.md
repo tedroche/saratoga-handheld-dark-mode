@@ -1,6 +1,8 @@
 # Enabling dark mode support on handheld.css
 
-There are three small routines that let your stylesheets respond to light & dark mode. Here's the code and the flow of operation: when the page loads, it checks if a preference has been saved and uses that. It presents a form (I put it in the bottom footer) to force light or dark mode regardless of the system settings, or to follow whatever the system is set for. It assumes you are using handheld.css, if not, you change it in one place in cell\_top.php, and have created a handheld-dark.css file, as explained in [https://www.wxforum.net/index.php?topic=49715.msg499292\#msg499292](https://www.wxforum.net/index.php?topic=49715.msg499292#msg499292) 
+This is a set of routines to add support for system- or user-selected light and dark modes to the handheld.css stylesheet used in the Alt-Dashboard scripts for the Saratoga weather website found on https://saratoga-weather.org/scripts-legacy.php#scott, originally developed by Scott of BurnsvilleWeather/WebsterWeather, now retired.
+
+There are three small scripts that let your stylesheets respond to light & dark mode. Here's the code and the flow of operation: when the page loads, darkmode-cell-top.php checks if a preference has been saved and uses that. darkmode-cell-top-setstyle.php adds the appropriate stylesheet HTML code to the top of the page. darkmode-cell-footer.php presents a form (I put it in the bottom footer, it should be movable) to force light or dark mode regardless of the system settings, or to follow whatever the system is set for. It assumes you are using handheld.css, if not, you change it in one place in cell\_top.php, and have created a handheld-dark.css file, as explained in [https://www.wxforum.net/index.php?topic=49715.msg499292\#msg499292](https://www.wxforum.net/index.php?topic=49715.msg499292#msg499292) 
 
 ## Darkmode-Cell-top.php
 
@@ -178,5 +180,5 @@ Key points to consider in converting pages to being dark-mode compliant:`
 1. You want all changes to colors in the CSS files, and out of the running code. This lets you support new modes and color templates without changing code. Especially for this light/dark process, the PHP code that runs the site is not aware of whether the system is set to light or dark, and the CSS automatically switches, without running any of the PHP code that runs the site.  
 2. If you need to modify an existing page, the ideal solution is to “tag” the element that needs color-changing with an id=”uniquename” or class=”specificClassOfElements” and make those changes in the handheld.css and handheld-dark.css pages. This minimizes the place you have to look for color settings
      
-   In other cases, like the Steel Series gauges that come with their own css page, you might want to modify the code shown here to support a separate -dark.css like the code in darkmode-cell-top-setstyle.php  
-3. 
+   In some cases, like the Steel Series gauges that come with their own css page, you might want to modify the code shown here to support a separate -dark.css like the code in darkmode-cell-top-setstyle.php, as there is a lot of CSS code and it is unlikely to be reused outside of this single page. Having a separate -dark.css also has the advanage that you can drop in updates to the supplied CSS without overwriting your -dark.css file.  
+3. Many, many elements have their colors hard-coded into their web pages, either with their own CSS files, inline <style>...</style> declarations, or with inline style="" declarations. 
