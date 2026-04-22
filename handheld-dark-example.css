@@ -1,0 +1,125 @@
+/* Dark mode -- handle dark mode completely in this file */
+/* add a call to this stylesheet AFTER the regular (light) one */
+
+/* manual mode -- uncomment the next line if you don't add all the switcher logic in -footer, Settings and -top */
+/* @media (prefers-color-scheme:dark) { /* If the dark scheme is specifically requested: */
+
+  :root {
+    color-scheme: dark;
+    --main-bg-color: black;
+    --alt-bg-color:  dimgray;
+    --main-fg-color: lightgray;
+    --main-anchor-color: lightblue;
+    --hover-anchor-color: lightyellow;
+    --visited-anchor-color: violet ;
+    --arrowup-color: lime;
+    --arrowdown-color: red;
+    --border-color: silver;
+    --temp-high-color: pink; /* was red */
+    --temp-low-color: lightblue; /* was full blue */
+  }
+
+  body{
+    background-color: var(--main-bg-color) ;
+    color: var(--main-fg-color);
+  }
+
+  a {color: var(--main-anchor-color) ; }
+  a:visited {color:var(--visited-anchor-color) ; }
+  a:hover {color:var(--hover-anchor-color); }
+  .toplinkscell a { color: var(--main-anchor-color) ; }
+  .toplinkscell a:visited { color: var(--visited-anchor-color) ; }
+  .toplinkscell a:hover { color: var(--hover-anchor-color) ; }
+
+  a.alertlink { color: var(--main-anchor-color) ; }
+  a.alertlink:visited { color: var(--visited-anchor-color) ; }
+  a.alertlink:hover { color: var(--hover-anchor-color) ; }
+  .temphi {color: var(--temp-high-color) ; }
+  .templo {color:; var(--temp-low-color) ; }
+
+  h1{ color: var(--main-fg-color) ; }
+  
+  h3 { color: var(--main-fg-color) ; }
+
+  /*darkmode form for switching */
+  #darkmodeform input#dark:checked ,
+  #darkmodeform input#system:checked {
+    cursor: not-allowed;
+    opacity: 75%;
+  }
+
+  
+  h3 { color: var(--main-fg-color) ; }
+
+  /*darkmode form for switching */
+  #darkmodeform input#dark:checked ,
+  #darkmodeform input#system:checked {
+    cursor: not-allowed;
+    opacity: 75%;
+  }
+
+  /* hack to insert a light background behind transparent thermometer and compass*/
+  td#thermometercontainer {
+    background-color: gray; 
+    background-image: linear-gradient(147deg, lightgray 0%, gray 100%) ;
+    border-radius: 20px;
+  }
+  
+  /* metal effect cite: cite: https://www.eggradients.com/gradient/moon-spot*/
+  td#windicbox {
+    background-color: #f5f5f5;
+    background-image: linear-gradient(147deg, #f5f5f5 0%, #8c92ac 100%);
+    border-radius: 37px;
+    width: 74px;
+  }
+  /* end of hack */
+
+  .alerttable {
+    background-color: var(--alt-bg-color);
+    border-color: var(--main-fg-color) ; 
+  }
+
+  #container {
+    background-image: unset;
+    background-color: #333;
+    max-width: 360px;
+  }
+
+  .wwamap-legend-color-swatch{
+      border-color: var(--main-fg-color) ;
+  } 
+
+  #infobox { color:#777; }
+
+  #footer {
+    border-color: #ccc;
+    background-color:#333;
+  }
+
+  .ajaxDashboard .datahead {
+    color: var(--main-fg-color) ;
+    background-color:#112637;
+  }
+
+  .ajaxDashboard .datahead2{
+    color: var(--main-fg-color) ;
+    background-color:#112637;
+    border-color: white;
+  }
+
+  td#AQIbox {
+    border-left-color: var(--border-color) ;  
+    border-bottom-color: var(--border-color) ;
+    color: var(--main-fg-color) ;
+  }
+  
+  #dashboardAQI {
+    color: var(--main-fg-color) ; 
+  } 
+
+  /* Replace inline text color in get-aqi-rss-with-link.php  */
+  span.dashbrdAQIText, span.dashbrdAQITextNA { color: var(--main-fg-color); }
+
+
+/* manual mode -- uncomment the next line (and at top of this file) if you don't add all the switcher logic in -footer, Settings and -top */
+/* } /* end dark mode */ 
