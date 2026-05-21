@@ -6,8 +6,19 @@
 ############################################################################
 ?>
 <?php if (!empty($SITE['CSSDarkMode']) && $SITE['CSSDarkMode'] != "Disabled") { // Use only if a -dark.css is found ?>
+<?php $darkmode_params= array();
+  if (!empty($_SERVER['QUERY_STRING'])) $result = parse_str($_SERVER['QUERY_STRING'], $darkmode_params) ;
+?> 
 <div>
 <form id="darkmodeform" name="darkmodeform" style="width:18em;margin:auto;" method="get" action="" >
+  <?php
+  // DEBUG: echo "<!-- darkmodeparams are ".print_r($darkmode_params, TRUE)." --> \n" ;
+  foreach ($darkmode_params as $key => $value) {
+    if ($key != 'darkmodeswitch') { // skip this one, that's what the form below sets!
+      echo "<input type=\"hidden\" name=\"$key\" value=\"$value\" /> \n";
+    } // endif the parameter is darkmodeswitch, skip
+  } //end-foreach 
+  ?> 
   <fieldset>
     <legend>Screen mode:</legend>
     <?php $checked = ($SITE['CSSDarkMode'] == 'Light') ? ' checked disabled ' : '' ; ?>
