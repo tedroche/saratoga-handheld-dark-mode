@@ -101,11 +101,11 @@ Creating the handheld-dark.css file for your setup, and adding the three blocks 
   `}`  
   `/* end of hack */`
   
-`td#AQIbox {`
-`border-left-color: var(--border-color) ;`
-`border-bottom-color: var(--border-color) ;`
-`color: var(--main-fg-color) ;`
-`}`
+  `td#AQIbox {`
+  `border-left-color: var(--border-color) ;`
+  `border-bottom-color: var(--border-color) ;`
+  `color: var(--main-fg-color) ;`
+  `}`
 
 The :root keyword means that the CSS that follows is applicable to the entire document. The color-scheme is set to dark, and a set of colors is defined with names, similar to properties or variables in programming languages, so that they can be applied consistently throughout the file by using the var() function. The idea is to create a standard set of named color properties (like caption, subhead, hot, cold, etc.) and be able to modify them in one central place and take effect thoughout the file. Note that this is a work-in-progress, and some colors are still hard-coded.
 
@@ -122,10 +122,16 @@ Similarly, the wind indicator had black compass points (N,E,S,W) that appear poo
 `<span class="ajax" id="ajaxwindiconwr">`
 
 The AQI section has a black number atop the graphic that was hard-coded with a lot of inline CSS. The solution was a little trickier because the colors were encoded directly in the border directives. I added an ID tag "AQIBox" and copied the CSS to BOTH the handheld.css and the handheld-dark.css, changing the colors. Here's the code in cell-ajax-dashboard.php:
-was: `<td rowspan="2" align="center" valign="middle" style="padding-left: 2px; border-left: 1px solid silver; border-bottom: 1px solid silver;"><?php echo $dashbrdAQI; ?> <br />`
-now: `<td rowspan="2" id="AQIbox" align="center" valign="middle" ><?php echo $dashbrdAQI; ?> <br />`
+was: 
+
+`<td rowspan="2" align="center" valign="middle" style="padding-left: 2px; border-left: 1px solid silver; border-bottom: 1px solid silver;"><?php echo $dashbrdAQI; ?> <br />`
+
+now: 
+
+`<td rowspan="2" id="AQIbox" align="center" valign="middle" ><?php echo $dashbrdAQI; ?> <br />`
 
 Handheld.css:
+
 `td#AQIbox {`
 `padding-left: 2px;`
 `border-left: 1px solid silver;`
@@ -133,6 +139,7 @@ Handheld.css:
 `}`
 
 Handheld-dark.css:
+
 `td#AQIbox {`
 `border-left-color: var(--border-color) ;`
 `border-bottom-color: var(--border-color) ;`
@@ -146,6 +153,6 @@ Key points to consider in converting pages to being dark-mode compliant:
      
    In some cases, like the Steel Series gauges that come with their own css page, you might want to modify the code shown here to support a separate -dark.css like the code in darkmode-cell-top-setstyle.php, as there is a lot of CSS code and it is unlikely to be reused outside of this single page. Having a separate -dark.css also has the advanage that you can drop in updates to the supplied CSS without overwriting your -dark.css file.  
 3. Many, many elements have their colors hard-coded into their web pages, either with their own CSS files, inline <style>...</style> declarations, or with inline style="" declarations. This will likely be an evolving, long-term portion of the project.
-4. The handheld.css is the primary file, containing the colors of light mode, as well as the structure, font and any other CSS characteristics. The -dark file is a supplmental file that overrides only the color settings of the primary file. This elminiates unnecessary duplication making maintenance easier.
+4. The handheld.css is the primary file, containing the colors of light mode, as well as the structure, font and any other CSS characteristics. The -dark file is a supplemental file that overrides only the color settings of the primary file. This elminiates unnecessary duplication making maintenance easier.
 5. Please don't feel any obligation to stick with my choice of colors. I picked them while developing so they were clearly changed, perhaps even garish. Season to your own tastes.
 
