@@ -148,7 +148,7 @@ Handheld-dark.css:
 
 Key points to consider in converting pages to being dark-mode compliant:
 
-1. You want all changes to colors in the CSS files, and out of the running code. This lets you support new modes and color templates without changing code. Especially for this light/dark process, the PHP code that runs the site is not aware of whether the system is set to light or dark, and inSystem mode, the CSS automatically switches, without running any of the PHP code that runs the site.  
+1. You want all changes to colors in the CSS files, and out of the running PHP code. This lets you support new modes and color templates without changing code. Especially for this light/dark process, the PHP code that runs the site is not aware of whether the system is set to light or dark, and in System mode, the CSS automatically switches, without running any of the PHP code that runs the site. 
 2. If you need to modify an existing page, the ideal solution is to “tag” the element that needs color-changing with an id=”uniquename” or class=”specificClassOfElements” and make those changes in the handheld.css and handheld-dark.css pages. This minimizes the place you have to look for color settings
      
    In some cases, like the Steel Series gauges that come with their own css page, you might want to modify the code shown here to support a separate -dark.css like the code in darkmode-cell-top-setstyle.php, as there is a lot of CSS code and it is unlikely to be reused outside of this single page. Having a separate -dark.css also has the advanage that you can drop in updates to the supplied CSS without overwriting your -dark.css file.  
